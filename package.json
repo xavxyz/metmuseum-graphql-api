@@ -1,0 +1,26 @@
+{
+  "name": "met-graphql",
+  "version": "0.1.0",
+  "description": "A GraphQL API wrapping the Metropolitan Museum of Art Collection API.",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev": "nodemon ./src/server.js --exec babel-node -e js",
+    "build": "babel src --out-dir dist",
+    "start": "node dist/server.js"
+  },
+  "author": "Xavier Cazalot <xavier.cazalot@gmail.com> (@xavczen)",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-async-to-generator": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "nodemon": "^1.18.5"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "apollo-server": "^2.1.0",
+    "graphql": "^14.0.2",
+    "node-fetch": "^2.2.0"
+  }
+}
