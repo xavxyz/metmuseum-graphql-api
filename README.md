@@ -15,9 +15,12 @@ query exploreTheMetCollection {
   allObjects(limit: 10) {
     total
     objects {
-      id
       title
-      artistDisplayName
+      artist {
+        displayName
+        beginDate
+        endDate
+      }
     }
   }
 }

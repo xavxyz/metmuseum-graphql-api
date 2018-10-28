@@ -55,6 +55,11 @@ export const typeDefs = gql`
     id: ID
 
     """
+    Artist related to the object
+    """
+    artist: Artist
+
+    """
     When "true" indicates a popular and important artwork in the collection
     """
     isHighlight: Boolean
@@ -123,51 +128,6 @@ export const typeDefs = gql`
     A set of works created as a group or published as a series.
     """
     portfolio: String
-
-    """
-    Role of the artist related to the type of artwork or object that was created
-    """
-    artistRole: String
-
-    """
-    Describes the extent of creation or describes an attribution qualifier to the information given in the artistRole field
-    """
-    artistPrefix: String
-
-    """
-    Artist name in the correct order for display
-    """
-    artistDisplayName: String
-
-    """
-    Nationality and life dates of an artist, also includes birth and death city when known.
-    """
-    artistDisplayBio: String
-
-    """
-    Used to record complex information that qualifies the role of a constituent, e.g. extent of participation by the Constituent (verso only, and followers)
-    """
-    artistSuffix: String
-
-    """
-    Used to sort artist names alphabetically. Last Name, First Name, Middle Name, Suffix, and Honorific fields, in that order.
-    """
-    artistAlphaSort: String
-
-    """
-    National, geopolitical, cultural, or ethnic origins or affiliation of the creator or institution that made the artwork
-    """
-    artistNationality: String
-
-    """
-    Year the artist was born
-    """
-    artistBeginDate: String
-
-    """
-    Year the artist died
-    """
-    artistEndDate: String
 
     """
     Year, a span of years, or a phrase that describes the specific or approximate date when an artwork was designed or created
@@ -289,6 +249,53 @@ export const typeDefs = gql`
     role: String
     name: String
   }
+
+  type Artist {
+    """
+    Role of the artist related to the type of artwork or object that was created
+    """
+    role: String
+
+    """
+    Describes the extent of creation or describes an attribution qualifier to the information given in the artistRole field
+    """
+    prefix: String
+
+    """
+    Artist name in the correct order for display
+    """
+    displayName: String
+
+    """
+    Nationality and life dates of an artist, also includes birth and death city when known.
+    """
+    displayBio: String
+
+    """
+    Used to record complex information that qualifies the role of a constituent, e.g. extent of participation by the Constituent (verso only, and followers)
+    """
+    suffix: String
+
+    """
+    Used to sort artist names alphabetically. Last Name, First Name, Middle Name, Suffix, and Honorific fields, in that order.
+    """
+    alphaSort: String
+
+    """
+    National, geopolitical, cultural, or ethnic origins or affiliation of the creator or institution that made the artwork
+    """
+    nationality: String
+
+    """
+    Year the artist was born
+    """
+    beginDate: String
+
+    """
+    Year the artist died
+    """
+    endDate: String
+  }
 `;
 
 export const resolvers = {
@@ -315,5 +322,17 @@ export const resolvers = {
   },
   Object: {
     id: object => object.objectID,
+    artist: object => object,
+  },
+  Artist: {
+    role: object => object.artistRole,
+    prefix: object => object.artistPrefix,
+    displayName: object => object.artistDisplayName,
+    displayBio: object => object.artistDisplayBio,
+    suffix: object => object.artistSuffix,
+    alphaSort: object => object.artistAlphaSort,
+    nationality: object => object.artistNationality,
+    beginDate: object => object.artistBeginDate,
+    endDate: object => object.artistEndDate,
   },
 };
