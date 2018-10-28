@@ -1,16 +1,40 @@
 import { gql } from 'apollo-server';
+import { MAX_LIMIT, DEFAULT_LIMIT } from './constants';
 
 export const typeDefs = gql`
   type Query {
     """
     Returns any objects with updated data after this date
     """
-    allObjects(updatedAfter: String, limit: Int, offset: Int): ObjectsConnection
+    allObjects(
+      """
+      Returns any objects with updated data after this date
+      """
+      updatedAfter: String,
+      """
+      Limit the number of objects returned by the query.
+
+      The default limit is ${DEFAULT_LIMIT} objects.
+      The maximum limit is ${MAX_LIMIT} objects.
+      """
+      limit: Int,
+      """
+      Skip that many objects before beginning to return objects
+      """
+      offset: Int
+    ): ObjectsConnection
 
     """
     A record for an object, containing all open access data about that object, including its image (if the image is available under Open Access)
     """
-    object(id: ID!): Object
+    object(
+      """
+      The unique Object ID for an object
+
+      Format 0-9, like 123.
+      """
+      id: ID!
+    ): Object
   }
 
   type ObjectsConnection {
