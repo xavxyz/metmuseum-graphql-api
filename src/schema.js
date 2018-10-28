@@ -100,6 +100,11 @@ export const typeDefs = gql`
     url: String
 
     """
+    Geographic fields related to the object's origin and its discovery
+    """
+    geography: Geography
+
+    """
     When "true" indicates a popular and important artwork in the collection
     """
     isHighlight: Boolean
@@ -168,61 +173,6 @@ export const typeDefs = gql`
     Text acknowledging the source or origin of the artwork and the year the object was acquired by the museum.
     """
     creditLine: String
-
-    """
-    Qualifying information that describes the relationship of the place catalogued in the geography fields to the object that is being catalogued
-    """
-    geographyType: String
-
-    """
-    City where the artwork was created
-    """
-    city: String
-
-    """
-    State or province where the artwork was created, may sometimes overlap with County
-    """
-    state: String
-
-    """
-    County where the artwork was created, may sometimes overlap with State
-    """
-    county: String
-
-    """
-    Country where the artwork was created or found
-    """
-    country: String
-
-    """
-    Geographic location more specific than country, but more specific than subregion, where the artwork was created or found (frequently null)
-    """
-    region: String
-
-    """
-    Geographic location more specific than Region, but less specific than Locale, where the artwork was created or found (frequently null)
-    """
-    subregion: String
-
-    """
-    Geographic location more specific than subregion, but more specific than locus, where the artwork was found (frequently null)
-    """
-    locale: String
-
-    """
-    Geographic location that is less specific than locale, but more specific than excavation, where the artwork was found (frequently null)
-    """
-    locus: String
-
-    """
-    The name of an excavation. The excavation field usually includes dates of excavation.
-    """
-    excavation: String
-
-    """
-    River is a natural watercourse, usually freshwater, flowing toward an ocean, a lake, a sea or another river related to the origins of an artwork (frequently null)
-    """
-    river: String
 
     """
     General term describing the artwork type.
@@ -296,6 +246,63 @@ export const typeDefs = gql`
     """
     endDate: String
   }
+
+  type Geography {
+    """
+    Qualifying information that describes the relationship of the place catalogued in the geography fields to the object that is being catalogued
+    """
+    type: String
+
+    """
+    City where the artwork was created
+    """
+    city: String
+
+    """
+    State or province where the artwork was created, may sometimes overlap with County
+    """
+    state: String
+
+    """
+    County where the artwork was created, may sometimes overlap with State
+    """
+    county: String
+
+    """
+    Country where the artwork was created or found
+    """
+    country: String
+
+    """
+    Geographic location more specific than country, but more specific than subregion, where the artwork was created or found (frequently null)
+    """
+    region: String
+
+    """
+    Geographic location more specific than Region, but less specific than Locale, where the artwork was created or found (frequently null)
+    """
+    subregion: String
+
+    """
+    Geographic location more specific than subregion, but more specific than locus, where the artwork was found (frequently null)
+    """
+    locale: String
+
+    """
+    Geographic location that is less specific than locale, but more specific than excavation, where the artwork was found (frequently null)
+    """
+    locus: String
+
+    """
+    The name of an excavation. The excavation field usually includes dates of excavation.
+    """
+    excavation: String
+
+    """
+    River is a natural watercourse, usually freshwater, flowing toward an ocean, a lake, a sea or another river related to the origins of an artwork (frequently null)
+    """
+    river: String
+  }
 `;
 
 export const resolvers = {
@@ -323,6 +330,7 @@ export const resolvers = {
   Object: {
     id: object => object.objectID,
     artist: object => object,
+    geography: object => object,
     date: object => object.objectDate,
     beginDate: object => object.objectBeginDate,
     endDate: object => object.objectEndDate,
@@ -340,5 +348,8 @@ export const resolvers = {
     nationality: object => object.artistNationality,
     beginDate: object => object.artistBeginDate,
     endDate: object => object.artistEndDate,
+  },
+  Geography: {
+    type: object => object.geographyType,
   },
 };
