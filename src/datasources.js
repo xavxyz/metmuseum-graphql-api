@@ -11,7 +11,19 @@ export class METFetcher extends RESTDataSource {
   }
 
   async getObject(id) {
-    return this.get(`objects/${id}`, {}, { cacheOptions: { ttl: this.ttl } });
+    const object = await this.get(
+      `objects/${id}`,
+      {},
+      { cacheOptions: { ttl: this.ttl } }
+    );
+
+    return Object.entries(object).reduce(
+      (obj, [field, value]) => ({
+        ...obj,
+        [field]: value === '' ? null : value,
+      }),
+      {}
+    );
   }
 
   async getObjectsConnection({
