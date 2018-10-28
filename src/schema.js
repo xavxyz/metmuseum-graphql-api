@@ -1,6 +1,4 @@
 import { gql } from 'apollo-server';
-import { fetcher, MAX_LIMIT } from './utils';
-import { connect } from 'net';
 
 export const typeDefs = gql`
   type Query {
@@ -167,29 +165,18 @@ export const typeDefs = gql`
 
 export const resolvers = {
   Query: {
-    allObjects: async (_, { updatedAfter, limit, offset }) => {
-      const connection = await fetcher(
-        'objects',
-        updatedAfter && { metadataDate: updatedAfter }
-      );
-
-      const from = offset || 0;
-      const to = offset + Math.min(limit, MAX_LIMIT) || 5;
-
-      return {
-        ...connection,
-        objectIDs: connection.objectIDs.slice(from, to),
-      };
-    },
-    object: (_, { id }) => fetcher(`objects/${id}`),
+    allObjects: async (_, args, { dataSources }) =>
+      dataSources.metFetcher.getObjectsConnection(args),
+    object: (_, { id }, { dataSources }) =>
+      dataSources.metFetcher.getObject(id),
   },
   ObjectsConnection: {
-    objects: async connection => {
+    objects: async (connection, _, { dataSources }) => {
       let objects = [];
 
       for (const id of connection.objectIDs) {
         try {
-          objects.push(await fetcher(`objects/${id}`));
+          objects.push(await dataSources.metFetcher.getObject(id));
         } catch (exception) {
           console.error(`Couldn't fetch ${id}`, exception);
         }

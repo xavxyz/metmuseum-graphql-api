@@ -34,6 +34,12 @@ The most basic usage would be:
 curl http://metmuseum-graphql.now.sh -X POST -d "{\"query\": \"{ allObjects { total } }\"}" -H "Content-Type: application/json"
 ```
 
+## Limitations
+
+You cannot ask more than 20 objects at the same time (= 20 requests in parallel to the REST API), and results are cached one day.
+
+These limitations have been mindfully set to prevent hammering the REST API
+
 ## Dev
 
 ```sh
