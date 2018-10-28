@@ -4,7 +4,7 @@ import { MAX_LIMIT, DEFAULT_LIMIT } from './constants';
 export const typeDefs = gql`
   type Query {
     """
-    Returns any objects with updated data after this date
+    Returns a list of objects of the Metropolitan Museum of Art
     """
     allObjects(
       """
@@ -60,6 +60,46 @@ export const typeDefs = gql`
     artist: Artist
 
     """
+    Title, identifying phrase, or name given to a work of art
+    """
+    title: String
+
+    """
+    URL to the primary image of an object in JPEG format
+    """
+    primaryImage: String
+
+    """
+    A list containing URLs to the additional images of an object in JPEG format
+    """
+    additionalImages: [String]
+
+    """
+    Year, a span of years, or a phrase that describes the specific or approximate date when an artwork was designed or created
+    """
+    date: String
+
+    """
+    Machine readable date indicating the year the artwork was started to be created
+    """
+    beginDate: String
+
+    """
+    Machine readable date indicating the year the artwork was completed (may be the same year or different year than the objectBeginDate)
+    """
+    endDate: String
+
+    """
+    Date metadata was last updated
+    """
+    updatedAfter: String
+
+    """
+    URL to object's page on metmuseum.org
+    """
+    url: String
+
+    """
     When "true" indicates a popular and important artwork in the collection
     """
     isHighlight: Boolean
@@ -75,16 +115,6 @@ export const typeDefs = gql`
     isPublicDomain: Boolean
 
     """
-    URL to the primary image of an object in JPEG format
-    """
-    primaryImage: String
-
-    """
-    A list containing URLs to the additional images of an object in JPEG format
-    """
-    additionalImages: [String]
-
-    """
     A list containing the constituents of an object, with both an artist name and their role
     """
     constituents: [Constituent]
@@ -97,12 +127,7 @@ export const typeDefs = gql`
     """
     Describes the physical type of the object
     """
-    objectName: String
-
-    """
-    Title, identifying phrase, or name given to a work of art
-    """
-    title: String
+    physicalType: String
 
     """
     Information about the culture, or people from which an object was created
@@ -128,21 +153,6 @@ export const typeDefs = gql`
     A set of works created as a group or published as a series.
     """
     portfolio: String
-
-    """
-    Year, a span of years, or a phrase that describes the specific or approximate date when an artwork was designed or created
-    """
-    objectDate: String
-
-    """
-    Machine readable date indicating the year the artwork was started to be created
-    """
-    objectBeginDate: String
-
-    """
-    Machine readable date indicating the year the artwork was completed (may be the same year or different year than the objectBeginDate)
-    """
-    objectEndDate: String
 
     """
     Refers to the materials that were used to create the artwork
@@ -230,19 +240,9 @@ export const typeDefs = gql`
     linkResource: String
 
     """
-    Date metadata was last updated
-    """
-    metadataDate: String
-
-    """
     Metropolitan Museum of Art, New York, NY
     """
     repository: String
-
-    """
-    URL to object's page on metmuseum.org
-    """
-    objectURL: String
   }
 
   type Constituent {
@@ -323,6 +323,12 @@ export const resolvers = {
   Object: {
     id: object => object.objectID,
     artist: object => object,
+    date: object => object.objectDate,
+    beginDate: object => object.objectBeginDate,
+    endDate: object => object.objectEndDate,
+    updatedAfter: object => object.metadataDate,
+    url: object => object.objectURL,
+    physicalType: object => object.objectName,
   },
   Artist: {
     role: object => object.artistRole,

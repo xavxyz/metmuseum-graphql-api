@@ -21,6 +21,7 @@ query exploreTheMetCollection {
         beginDate
         endDate
       }
+      url
     }
   }
 }
