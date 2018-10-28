@@ -50,6 +50,12 @@ npm install
 npm run dev
 ```
 
+## Monitoring
+
+Recommended but optional, you can enable [cache control](https://www.apollographql.com/docs/engine/proxy/guides.html#caching) to avoid hammering the MET API, you'll need an [Apollo Engine API key](https://engine.apollographql.com/).
+
+Once you have one, copy `.env.sample` to `.env` and replace the default value by your API key.
+
 ## Aknowledgements
 
 Thanks for the MET team for building an awesome API allowing us to discover more than 470,000 artworks. Find out more at https://metmuseum.github.io.
